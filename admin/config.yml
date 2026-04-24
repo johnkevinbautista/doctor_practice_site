@@ -1,0 +1,64 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where uploaded images go
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    files:
+      - name: "all_posts"
+        label: "All Posts"
+        file: "posts/posts.json"
+        fields:
+          - name: "posts"
+            label: "Posts"
+            widget: "list"
+            summary: "{{fields.title}} — {{fields.date}}"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+
+              - label: "Slug"
+                name: "slug"
+                widget: "string"
+                hint: "URL-friendly ID — lowercase, hyphens only. E.g. understanding-preventive-care"
+
+              - label: "Publish Date"
+                name: "date"
+                widget: "datetime"
+                date_format: "MMMM D, YYYY"
+                time_format: false
+
+              - label: "Author"
+                name: "author"
+                widget: "string"
+                default: "Meridian Health"
+
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options:
+                  - "Health Tips"
+                  - "Practice News"
+                  - "Patient Stories"
+                  - "Preventive Care"
+                  - "Wellness"
+
+              - label: "Excerpt"
+                name: "excerpt"
+                widget: "text"
+                hint: "Short summary shown on the blog listing page (1–2 sentences)."
+
+              - label: "Cover Image URL"
+                name: "image"
+                widget: "string"
+                hint: "Paste any image URL, e.g. an Unsplash link."
+
+              - label: "Body"
+                name: "body"
+                widget: "markdown"

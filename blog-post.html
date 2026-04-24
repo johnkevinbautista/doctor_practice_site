@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading… | Meridian Health</title>
+  <meta name="description" content="Health insights from the physicians at Meridian Health." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Post article layout ── */
+    .post-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 3rem;
+      align-items: start;
+      padding: 4rem 0;
+    }
+
+    /* Cover image */
+    .post-cover {
+      width: 100%;
+      max-height: 480px;
+      object-fit: cover;
+      border-radius: var(--r-xl);
+      margin-bottom: 2.5rem;
+      display: block;
+    }
+
+    /* Post header */
+    .post-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .post-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .post-category-pill {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary);
+      background: rgba(26, 95, 168, 0.08);
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--r-full);
+    }
+
+    .post-category-pill.teal {
+      color: var(--teal);
+      background: rgba(15, 155, 138, 0.08);
+    }
+
+    .post-date,
+    .post-author-inline {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .post-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .post-excerpt {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      border-left: 3px solid var(--primary);
+      padding-left: 1.25rem;
+    }
+
+    /* Markdown body typography */
+    .post-body {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text);
+    }
+
+    .post-body h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text);
+    }
+
+    .post-body h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin: 2rem 0 0.5rem;
+      color: var(--text);
+    }
+
+    .post-body p {
+      margin-bottom: 1.25rem;
+    }
+
+    .post-body ul,
+    .post-body ol {
+      margin: 0 0 1.25rem 1.5rem;
+    }
+
+    .post-body li {
+      margin-bottom: 0.5rem;
+    }
+
+    .post-body strong {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .post-body a {
+      color: var(--primary);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .post-body a:hover { color: var(--primary-dark); }
+
+    .post-body blockquote {
+      border-left: 3px solid var(--teal);
+      margin: 1.5rem 0;
+      padding: 0.75rem 1.5rem;
+      background: rgba(15, 155, 138, 0.05);
+      border-radius: 0 var(--r-md) var(--r-md) 0;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .post-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .post-body th,
+    .post-body td {
+      text-align: left;
+      padding: 0.65rem 0.9rem;
+      border: 1px solid var(--border);
+    }
+
+    .post-body th {
+      background: var(--bg);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .post-body tr:nth-child(even) td {
+      background: rgba(26, 95, 168, 0.03);
+    }
+
+    .post-body hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* Sidebar */
+    .post-sidebar {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+
+    .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-xl);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-card-heading {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-author-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-author-title {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .related-post-link {
+      display: block;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.4;
+      transition: color var(--transition);
+    }
+
+    .related-post-link:last-child { border-bottom: none; }
+    .related-post-link:hover { color: var(--primary); }
+
+    .related-post-date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    /* Back link */
+    .post-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: color var(--transition);
+    }
+
+    .post-back-link:hover { color: var(--primary); }
+
+    /* Loading / error states */
+    .post-state {
+      padding: 6rem 0;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .post-state h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .post-layout {
+        grid-template-columns: 1fr;
+      }
+      .post-sidebar {
+        position: static;
+        order: -1;
+      }
+    }
+  </style>
+</head>
+<body data-page="blog">
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" role="banner">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Meridian Health Home">
+          <div class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 2C5.6 2 2 5.6 2 10s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm1 11H9v-4H6l4-5 4 5h-3v4z"/>
+            </svg>
+          </div>
+          <span class="logo-text">Meridian<span>Health</span></span>
+        </a>
+
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="index.html"    class="nav-link" data-page="home">Home</a>
+          <a href="about.html"    class="nav-link" data-page="about">About</a>
+          <a href="services.html" class="nav-link" data-page="services">Services</a>
+          <a href="providers.html" class="nav-link" data-page="providers">Providers</a>
+          <a href="partners.html" class="nav-link" data-page="partners">Partners</a>
+          <a href="blog.html"     class="nav-link" data-page="blog">Blog</a>
+          <a href="contact.html"  class="nav-link" data-page="contact">Contact</a>
+        </nav>
+
+        <div class="header-cta">
+          <span class="nav-phone">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.92v1z"/></svg>
+            (212) 555-0180
+          </span>
+          <a href="contact.html" class="btn btn-primary btn-sm">Book Appointment</a>
+        </div>
+
+        <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="index.html"     class="nav-link" data-page="home">Home</a>
+    <a href="about.html"     class="nav-link" data-page="about">About</a>
+    <a href="services.html"  class="nav-link" data-page="services">Services</a>
+    <a href="providers.html" class="nav-link" data-page="providers">Providers</a>
+    <a href="partners.html"  class="nav-link" data-page="partners">Partners</a>
+    <a href="blog.html"      class="nav-link" data-page="blog">Blog</a>
+    <a href="contact.html"   class="nav-link" data-page="contact">Contact</a>
+    <a href="contact.html"   class="btn btn-primary">Book an Appointment</a>
+  </nav>
+
+  <main id="post-main">
+    <!-- Content injected by JS -->
+    <div class="container">
+      <div class="post-state">
+        <p>Loading article…</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <div class="logo-mark" style="width:32px;height:32px;" aria-hidden="true">
+              <svg viewBox="0 0 20 20" style="width:18px;height:18px;"><path d="M10 2C5.6 2 2 5.6 2 10s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm1 11H9v-4H6l4-5 4 5h-3v4z" fill="white"/></svg>
+            </div>
+            MeridianHealth
+          </a>
+          <p class="footer-tagline">Modern primary care designed around you — with the access, time, and personalized attention you deserve.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+            <a href="#" class="social-link" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+            <a href="#" class="social-link" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">Services</a>
+            <a href="providers.html">Our Providers</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Book Appointment</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Patient Info</div>
+          <div class="footer-links">
+            <a href="#">New Patients</a>
+            <a href="#">Patient Portal</a>
+            <a href="#">Insurance &amp; Payment</a>
+            <a href="#">Medical Records</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Contact</div>
+          <div class="footer-contact">
+            <div class="footer-contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>450 Park Avenue, Suite 200<br/>New York, NY 10022</span>
+            </div>
+            <div class="footer-contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 .93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.92v1z"/></svg>
+              <span>(212) 555-0180</span>
+            </div>
+            <div class="footer-contact-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Mon–Fri: 8am – 7pm<br/>Saturday: 9am – 2pm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Meridian Health. All rights reserved.</span>
+        <div style="display:flex;gap:1.5rem;">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- marked.js — lightweight Markdown → HTML renderer -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // ── Single post reader ──
+    (async function () {
+      const main = document.getElementById('post-main');
+      const tealCategories = new Set(['Wellness', 'Patient Stories']);
+
+      function escHtml(str) {
+        return String(str ?? '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function renderError(msg) {
+        main.innerHTML = `
+          <div class="container">
+            <div class="post-state">
+              <h2>Post not found</h2>
+              <p>${escHtml(msg)}</p>
+              <a href="blog.html" class="btn btn-primary" style="margin-top:1.5rem;">Back to Blog</a>
+            </div>
+          </div>`;
+      }
+
+      // Get slug from ?slug= query param
+      const slug = new URLSearchParams(window.location.search).get('slug');
+      if (!slug) { renderError('No post specified.'); return; }
+
+      try {
+        const res  = await fetch('posts/posts.json');
+        const data = await res.json();
+        const posts = data.posts || [];
+        const post  = posts.find(p => p.slug === slug);
+
+        if (!post) { renderError(`No post with slug "${slug}".`); return; }
+
+        // Update page title + meta
+        document.title = `${post.title} | Meridian Health`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', post.excerpt || '');
+
+        // Related posts (same category, exclude current)
+        const related = posts
+          .filter(p => p.slug !== slug && p.category === post.category)
+          .slice(0, 3);
+
+        const isTeal    = tealCategories.has(post.category);
+        const pillClass = isTeal ? 'post-category-pill teal' : 'post-category-pill';
+
+        const coverHtml = post.image
+          ? `<img class="post-cover" src="${escHtml(post.image)}" alt="${escHtml(post.title)}" />`
+          : '';
+
+        const relatedHtml = related.length
+          ? related.map(r => `
+              <a href="blog-post.html?slug=${encodeURIComponent(r.slug)}" class="related-post-link">
+                ${escHtml(r.title)}
+                <div class="related-post-date">${escHtml(r.date)}</div>
+              </a>`).join('')
+          : '<p style="font-size:0.88rem;color:var(--text-muted);">No related posts yet.</p>';
+
+        const renderedBody = marked.parse(post.body || '');
+
+        main.innerHTML = `
+          <div class="container">
+            <a href="blog.html" class="post-back-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+              All Posts
+            </a>
+
+            <div class="post-layout">
+
+              <!-- ── Main article column ── -->
+              <article aria-labelledby="post-title">
+                ${coverHtml}
+
+                <header class="post-header">
+                  <div class="post-meta-row">
+                    <span class="${pillClass}">${escHtml(post.category)}</span>
+                    <span class="post-date">${escHtml(post.date)}</span>
+                    <span class="post-author-inline">by ${escHtml(post.author)}</span>
+                  </div>
+                  <h1 class="post-title" id="post-title">${escHtml(post.title)}</h1>
+                  <p class="post-excerpt">${escHtml(post.excerpt)}</p>
+                </header>
+
+                <div class="post-body">
+                  ${renderedBody}
+                </div>
+              </article>
+
+              <!-- ── Sidebar ── -->
+              <aside class="post-sidebar" aria-label="Post sidebar">
+
+                <div class="sidebar-card">
+                  <div class="sidebar-card-heading">Written by</div>
+                  <div class="sidebar-author-name">${escHtml(post.author)}</div>
+                  <div class="sidebar-author-title">Meridian Health Physician</div>
+                  <a href="providers.html" class="btn btn-outline" style="width:100%;text-align:center;">
+                    View Profile
+                  </a>
+                </div>
+
+                <div class="sidebar-card">
+                  <div class="sidebar-card-heading">Ready to Book?</div>
+                  <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:1rem;line-height:1.6;">
+                    Questions about what you read? Book a visit and talk it through with your physician.
+                  </p>
+                  <a href="contact.html" class="btn btn-primary" style="width:100%;text-align:center;">
+                    Book Appointment
+                  </a>
+                </div>
+
+                ${related.length ? `
+                <div class="sidebar-card">
+                  <div class="sidebar-card-heading">Related Posts</div>
+                  ${relatedHtml}
+                </div>` : ''}
+
+              </aside>
+            </div>
+          </div>`;
+
+      } catch (err) {
+        renderError('Could not load the post. Please try again.');
+        console.error('Post fetch error:', err);
+      }
+    })();
+  </script>
+</body>
+</html>
