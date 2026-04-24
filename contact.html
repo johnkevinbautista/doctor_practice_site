@@ -84,7 +84,18 @@
               <h2 class="section-heading" id="booking-form-heading" style="font-size:1.5rem;margin-bottom:0.5rem;">Request an Appointment</h2>
               <p style="color:var(--text-muted);font-size:0.9375rem;margin-bottom:2rem;">We'll review your request and confirm a time within two business hours.</p>
 
-              <form id="appointment-form" novalidate aria-label="Appointment request form">
+              <form
+                id="appointment-form"
+                name="appointment-request"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                novalidate
+                aria-label="Appointment request form"
+              >
+                <!-- Required by Netlify Forms -->
+                <input type="hidden" name="form-name" value="appointment-request" />
+                <input name="bot-field" style="display:none" aria-hidden="true" />
 
                 <div class="form-row">
                   <div class="form-group">
@@ -160,10 +171,7 @@
                   <textarea class="form-control" id="message" name="message" placeholder="Briefly describe your reason for visiting, any symptoms, or questions you'd like to discuss. This helps us prepare for your visit." rows="4"></textarea>
                 </div>
 
-                <div class="notice notice-teal" style="margin-bottom:1.5rem;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  <div>Your information is protected by HIPAA and never shared with third parties. We'll only contact you to confirm your appointment.</div>
-                </div>
+            
 
                 <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;">
                   Request Appointment

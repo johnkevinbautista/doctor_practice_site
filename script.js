@@ -80,7 +80,7 @@ const statObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('[data-count]').forEach(el => statObserver.observe(el));
 
-/* ---------- Contact Form ---------- */
+/* ---------- Contact Form — Netlify Forms AJAX ---------- */
 const contactForm = document.getElementById('appointment-form');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
@@ -89,16 +89,23 @@ if (contactForm) {
     btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    setTimeout(() => {
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(contactForm)).toString()
+    })
+    .then(() => {
       const success = document.getElementById('form-success');
       if (success) {
         contactForm.style.display = 'none';
         success.style.display = 'block';
-      } else {
-        btn.textContent = 'Request Sent!';
-        btn.style.background = 'var(--teal)';
       }
-    }, 1200);
+    })
+    .catch(() => {
+      btn.textContent = 'Request Appointment';
+      btn.disabled = false;
+      alert('Something went wrong. Please call us at (212) 555-0180.');
+    });
   });
 }
 
